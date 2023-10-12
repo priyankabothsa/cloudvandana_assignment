@@ -1,126 +1,58 @@
-class Calculator {
-    constructor(previousOperandTextElement, currentOperandTextElement) {
-        this.previousOperandTextElement = previousOperandTextElement
-        this.currentOperandTextElement = currentOperandTextElement
-        this.clear()
-    }
+function submitForm() {
+    // Get form values
+    const firstName = document.getElementById('first-name').value;
+    const lastName = document.getElementById('last-name').value;
+    const dateOfBirth = document.getElementById('date-of-birth').value;
+    const country = document.getElementById('country').value;
+    const gender = getSelectedGender();
+    const profession = document.getElementById('profession').value;
+    const email = document.getElementById('email').value;
+    const mobile = document.getElementById('mobile').value;
 
-    clear() {
-        this.currentOperand = ''
-        this.previousOperand = ''
-        this.operation = undefined
-    }
+    // Display the data in a popup
+    const popupData = document.getElementById('popup-data');
+    popupData.innerHTML = `
+        <p><strong>First Name:</strong> ${firstName}</p>
+        <p><strong>Last Name:</strong> ${lastName}</p>
+        <p><strong>Date of Birth:</strong> ${dateOfBirth}</p>
+        <p><strong>Country:</strong> ${country}</p>
+        <p><strong>Gender:</strong> ${gender}</p>
+        <p><strong>Profession:</strong> ${profession}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Mobile Number:</strong> ${mobile}</p>
+    `;
 
-    delete() {
-        this.currentOperand = this.currentOperand.toString().slice(0, -1)
-    }
+    // Show the popup
+    const popup = document.getElementById('popup');
+    popup.style.display = 'block';
 
-    appendNumber(number) {
-        if (number === '.' && this.currentOperand.includes('.')) return
-        this.currentOperand = this.currentOperand.toString() + number.toString()
-    }
-
-    chooseOperation(operation) {
-        if (this.currentOperand === '') return
-        if (this.previousOperand !== '') {
-            this.compute()
-        }
-        this.operation = operation
-        this.previousOperand = this.currentOperand
-        this.currentOperand = ''
-    }
-
-    compute() {
-        let computation
-        const prev = parseFloat(this.previousOperand)
-        const current = parseFloat(this.currentOperand)
-        if (isNaN(prev) || isNaN(current)) return
-        switch (this.operation) {
-            case '+':
-                computation = prev + current
-                break
-            case '-':
-                computation = prev - current
-                break
-            case '*':
-                computation = prev * current
-                break
-            case '÷':
-                computation = prev / current
-                break
-            default:
-                return
-        }
-        this.currentOperand = computation
-        this.operation = undefined
-        this.previousOperand = ''
-    }
-
-    getDisplayNumber(number) {
-        const stringNumber = number.toString()
-        const integerDigits = parseFloat(stringNumber.split('.')[0])
-        const decimalDigits = stringNumber.split('.')[1]
-        let integerDisplay
-        if (isNaN(integerDigits)) {
-            integerDisplay = ''
-        } else {
-            integerDisplay = integerDigits.toLocaleString('en', { maximumFractionDigits: 0 })
-        }
-        if (decimalDigits != null) {
-            return `${integerDisplay}.${decimalDigits}`
-        } else {
-            return integerDisplay
-        }
-    }
-
-    updateDisplay() {
-        this.currentOperandTextElement.innerText =
-            this.getDisplayNumber(this.currentOperand)
-        if (this.operation != null) {
-            this.previousOperandTextElement.innerText =
-                `${this.getDisplayNumber(this.previousOperand)} ${this.operation}`
-        } else {
-            this.previousOperandTextElement.innerText = ''
-        }
-    }
+    // Reset the form
+    resetForm();
 }
 
+function getSelectedGender() {
+    const genderCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+    const selectedGenders = Array.from(genderCheckboxes)
+        .filter(checkbox => checkbox.checked)
+        .map(checkbox => checkbox.nextSibling.textContent);
 
-const numberButtons = document.querySelectorAll('[data-number]')
-const operationButtons = document.querySelectorAll('[data-operation]')
-const equalsButton = document.querySelector('[data-equals]')
-const deleteButton = document.querySelector('[data-delete]')
-const allClearButton = document.querySelector('[data-all-clear]')
-const previousOperandTextElement = document.querySelector('[data-previous-operand]')
-const currentOperandTextElement = document.querySelector('[data-current-operand]')
+    return selectedGenders.join(', ');
+}
 
-const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement)
+function closePopup() {
+    // Close the popup
+    const popup = document.getElementById('popup');
+    popup.style.display = 'none';
+}
 
-numberButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        calculator.appendNumber(button.innerText)
-        calculator.updateDisplay()
-    })
-})
+function resetForm() {
+    document.getElementById('survey-form').reset();
+    clearGenderCheckboxes();
+}
 
-operationButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        calculator.chooseOperation(button.innerText)
-        calculator.updateDisplay()
-    })
-})
-
-equalsButton.addEventListener('click', button => {
-    calculator.compute()
-    calculator.updateDisplay()
-})
-
-allClearButton.addEventListener('click', button => {
-    calculator.clear()
-    calculator.updateDisplay()
-})
-
-deleteButton.addEventListener('click', button => {
-    calculator.delete()
-    calculator.updateDisplay()
-})
+function clearGenderCheckboxes() {
+    const genderCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+    genderCheckboxes.forEach(checkbox => {
+        checkbox.checked = false;
+    });
+}

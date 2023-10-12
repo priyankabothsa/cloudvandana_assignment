@@ -1,60 +1,43 @@
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-    font-family: Gotham Rounded, sans-serif;
-    font-weight: normal;
-}
-
 body {
-    padding: 0;
-    margin: 0;
-    background: linear-gradient(to right, #7b7f82, #676968);
-}
-
-.calculator-grid {
-    display: grid;
-    justify-content: center;
-    align-content: center;
-    min-height: 100vh;
-    grid-template-columns: repeat(4, 100px);
-    grid-template-rows: minmax(120px, auto) repeat(5, 100px);
-}
-
-.calculator-grid>button {
-    cursor: pointer;
-    font-size: 2rem;
-    border: 1px solid rgb(244, 239, 239);
-    outline: none;
-    background-color: rgba(35, 123, 211, 0.75);
-}
-
-.calculator-grid>button:hover {
-    background-color: white(255, 255, 255, .9);
-}
-
-.span-two {
-    grid-column: span 2;
-}
-
-.output {
-    grid-column: 1 / -1;
-    background-color: rgba(8, 8, 8, 0.75);
     display: flex;
-    align-items: flex-end;
-    justify-content: space-around;
-    flex-direction: column;
-    padding: 10px;
-    word-wrap: break-word;
-    word-break: break-all;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
 }
 
-.output .previous-operand {
-    color: rgba(255, 255, 255, .75);
-    font-size: 1.5rem;
+.survey-form {
+    background-color: #eaacd9;
+    border: 1px solid #968f96;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    text-align: left;
 }
 
-.output .current-operand {
-    color: white;
-    font-size: 2.5rem;
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background-color: rgb(231, 229, 233);
+    border: 1px solid #e898d8;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: left;
+}
+
+.close {
+    float: right;
+    cursor: pointer;
+    font-size: 20px;
 }
